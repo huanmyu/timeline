@@ -4,7 +4,7 @@
 3. php composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
 4. php composer.phar create-project yiisoft/yii2-app-advanced yii-advanced 2.0.11
 5. [start-document](https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide/start-installation.md)
-6. 如果直接git clone,只需要前两步和additional的第一步，然后composer install
+6. 如果直接git clone,只需要前两步和additional的第一步，然后composer install或者composer update
 
 ### additional
 1. 安装php-mongodb扩展 to use yii2-mongodb

@@ -18,7 +18,9 @@
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "yiisoft/yii2-mongodb": "^2.1"
+        "yiisoft/yii2-mongodb": "^2.1",
+        "chrisboulton/php-resque": "1.2.x",
+        "chrisboulton/php-resque-scheduler": "1.1.x"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
