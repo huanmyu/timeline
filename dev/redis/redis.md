@@ -1,12 +1,16 @@
 # Redis
+1. Redis is not a plain key-value store, actually it is a data structures server, supporting different kind of values.
+2. It is possible to iterate the key space of a large collection incrementally.
+3. It is possible to run Lua scripts server side to win latency and bandwidth.
+4. Redis is also a Pub-Sub server.
 
 ## Install
 1. mac: brew install redis
 2. linux: sudo apt-get install redis-server
+3. windows: https://github.com/MSOpenTech/redis
 
 ## Redis Data Types
-
-### string keys
+### String Keys
 - The empty string is also a valid key.
 - The maximum allowed key size is 512 MB.
 - Altering and querying the key space
@@ -21,7 +25,7 @@
   - TTL : ttl key
     - PTTL(milliseconds)
 
-### complex data structures values
+### Complex Data Structures Values
 1. Binary-safe strings
   - Notes
     - value can't be bigger than 512 MB.
@@ -115,3 +119,6 @@
   - Commands
     - PFADD : pfadd hll a b c d
     - PFCOUNT : pfcount hll
+
+## Notes
+The information refers to this [document](https://redis.io/topics/data-types-intro)
