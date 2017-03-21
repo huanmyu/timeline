@@ -22,6 +22,14 @@
 1. 这些函数允许你获得类和对象实例的相关信息。 你可以获取对象所属的类名，也可以是它的成员属性和方法。 通过使用这些函数，你不仅可以找到对象和类的关系，也可以是它们的继承关系（例如，对象类继承自哪个类）。
 2. get_class — 返回对象的类名
 3. class_alias — 为一个类创建别名
+4. 要创建一个类的实例，必须使用 new 关键字。在类定义内部，可以用 new self 和 new parent 创建新对象。
+5. 使用 ClassName::class 你可以获取一个字符串，包含了类 ClassName 的完全限定名称。
+6. $this 指向当前的 object, self 指向当前的 class。
+7. class_exists — 检查类是否已定义; interface_exists — 检查接口是否已被定义; trait_exists — 检查指定的 trait 是否存在。
+8. 在编写面向对象（OOP） 程序时，很多开发者为每个类新建一个 PHP 文件。 这会带来一个烦恼：每个脚本的开头，都需要包含（include）一个长长的列表（每个类都有个文件）。在 PHP 5 中，已经不再需要这样了。 spl_autoload_register() 函数可以注册任意数量的自动加载器，当使用尚未被定义的类（class）和接口（interface）时自动去加载。通过注册自动加载器，脚本引擎在 PHP 出错失败前有了最后一个机会加载所需的类。
+9. get_called_class — 后期静态绑定（"Late Static Binding"）类的名称
+10. require 和 include 几乎完全一样，除了处理失败的方式不同之外。require 在出错时产生 E_COMPILE_ERROR 级别的错误。换句话说将导致脚本中止而 include 只产生警告（E_WARNING），脚本会继续运行。
+11. 当一个文件被包含时，其中所包含的代码继承了 include 所在行的变量范围。从该处开始，调用文件在该行处可用的任何变量在被调用的文件中也都可用。不过所有在包含文件中定义的函数和类都具有全局作用域。
 
 ### 预定义接口
 1. IteratorAggregate（聚合式迭代器）接口
@@ -40,10 +48,43 @@
   public Closure bindTo ( object $newthis [, mixed $newscope = 'static' ] ) // 复制当前闭包对象，绑定指定的$this对象和类作用域。
   }
   ```
+### 异常
+#### 预定义异常
+1. Exception是所有异常的基类。
+2. ErrorException是错误异常。
+#### SPL异常
+1. SPL 提供一系列标准异常。
+2. LogicException (extends Exception)
+  - BadFunctionCallException
+    - BadMethodCallException
+  - DomainException
+  - InvalidArgumentException
+  - LengthException
+  - OutOfRangeException
+3. RuntimeException (extends Exception)
+  - OutOfBoundsException
+  - OverflowException
+  - RangeException
+  - UnderflowException
+  - UnexpectedValueException
 
-### 函数
-1. 匿名函数， 匿名函数目前是通过 Closure 类来实现的。
+## 函数
+### 匿名函数
+1. 匿名函数目前是通过 Closure 类来实现的。
 2. 闭包可以从父作用域中继承变量。 任何此类变量都应该用 use 语言结构传递进去。 PHP 7.1 起，不能传入此类变量： superglobals、 $this 或者和参数重名。
+### SPL 函数
+1. spl_autoload_register — 注册给定的函数作为 __autoload 的实现。
+  - 将函数注册到SPL __autoload函数队列中。如果该队列中的函数尚未激活，则激活它们。
+
+## 命名空间
+1. PHP 命名空间提供了一种将相关的类、函数和常量组合到一起的途径。 在PHP中，命名空间用来解决在编写类库或应用程序时创建可重用的代码如类或函数时碰到的两类问题：
+- 用户编写的代码与PHP内部的类/函数/常量或第三方类/函数/常量之间的名字冲突。
+- 为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名（或简短）的名称，提高源代码的可读性。
+2. 命名空间通过关键字namespace 来声明。
+3. 访问任意全局类、函数或常量，都可以使用完全限定名称，例如 \strlen() 或 \Exception 或 \INI_ALL。
+4. PHP支持两种抽象的访问当前命名空间内部元素的方法，__NAMESPACE__ 魔术常量和namespace关键字。
+5. 如果没有定义任何命名空间，所有的类与函数的定义都是在全局空间，与 PHP 引入命名空间概念前一样。在名称前加上前缀 \ 表示该名称是全局空间中的名称，即使该名称位于其它的命名空间中时也是如此。
+6. 使用use操作符导入/使用别名
 
 ### The Common Gateway Interface [CGI](http://www.faqs.org/rfcs/rfc3875.html)
 1. The Common Gateway Interface (CGI) allows an HTTP server and a CGI script to share responsibility for responding to client requests.

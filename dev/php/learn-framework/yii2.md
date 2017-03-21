@@ -41,6 +41,7 @@
 
     - get_called_class — 后期静态绑定（"Late Static Binding"）类的名称
     - class_exists — 检查类是否已定义
+    - func_get_args — 返回一个包含函数参数列表的数组
 
     - strncmp — 二进制安全比较字符串开头的若干个字符
     - strncasecmp — 二进制安全比较字符串开头的若干个字符（不区分大小写）
@@ -54,3 +55,10 @@
     - $_SERVER['argv'] — 传递给该脚本的参数的数组。当脚本以命令行方式运行时，argv 变量传递给程序 C 语言样式的命令行参数。当通过 GET 方式调用时，该变量包含query string。
 
     - exit — 输出一个消息并且退出当前脚本(尽管调用了 exit()， Shutdown函数 以及 object destructors 总是会被执行。)
+
+    - openssl_random_pseudo_bytes — Generate a pseudo-random string of bytes
+    - strtr — 转换指定字符
+    - strpos — 查找字符串首次出现的位置
+
+    - spl_autoload_register — 注册给定的函数作为 __autoload 的实现
+    - BadMethodCallException — 当一个回调方法是一个未定义的方法或缺失一些参数时会抛出该异常。
