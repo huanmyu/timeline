@@ -35,6 +35,7 @@
     - array_filter — 用回调函数过滤数组中的单元
     - array_intersect_key — 使用键名比较计算数组的交集
     - array_diff — 计算数组的差集
+    - array_values — 返回 input 数组中所有的值并给其建立数字索引。
 
     - implode — 将一个一维数组的值转化为字符串
     - explode — 使用一个字符串分割另一个字符串
@@ -42,6 +43,9 @@
     - get_called_class — 后期静态绑定（"Late Static Binding"）类的名称
     - class_exists — 检查类是否已定义
     - func_get_args — 返回一个包含函数参数列表的数组
+    - class_parents — 返回一个包含了指定类class父类名称的数组
+    - class_implements — 返回一个数组，该数组中包含了指定类class及其父类所实现的所有接口的名称
+    - call_user_func — 把第一个参数作为回调函数调用;第一个参数 callback 是被调用的回调函数，其余参数是回调函数的参数
 
     - strncmp — 二进制安全比较字符串开头的若干个字符
     - strncasecmp — 二进制安全比较字符串开头的若干个字符（不区分大小写）
@@ -59,6 +63,7 @@
     - openssl_random_pseudo_bytes — Generate a pseudo-random string of bytes
     - strtr — 转换指定字符
     - strpos — 查找字符串首次出现的位置
+    - ltrim — 删除字符串开头的空白字符（或其他字符）
 
     - spl_autoload_register — 注册给定的函数作为 __autoload 的实现
     - BadMethodCallException — 当一个回调方法是一个未定义的方法或缺失一些参数时会抛出该异常。

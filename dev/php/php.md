@@ -30,6 +30,7 @@
 9. get_called_class — 后期静态绑定（"Late Static Binding"）类的名称
 10. require 和 include 几乎完全一样，除了处理失败的方式不同之外。require 在出错时产生 E_COMPILE_ERROR 级别的错误。换句话说将导致脚本中止而 include 只产生警告（E_WARNING），脚本会继续运行。
 11. 当一个文件被包含时，其中所包含的代码继承了 include 所在行的变量范围。从该处开始，调用文件在该行处可用的任何变量在被调用的文件中也都可用。不过所有在包含文件中定义的函数和类都具有全局作用域。
+12. self，parent 和 static这三个特殊的关键字是用于在类定义的内部对其属性或方法进行访问的。 
 
 ### 预定义接口
 1. IteratorAggregate（聚合式迭代器）接口
@@ -68,6 +69,24 @@
   - UnderflowException
   - UnexpectedValueException
 
+## 重载
+1. PHP所提供的"重载"（overloading）是指动态地"创建"类属性和方法。我们是通过魔术方法（magic methods）来实现的。当调用当前环境下未定义或不可见的类属性或方法时，重载方法会被调用。
+2. 属性重载
+- 在给不可访问属性赋值时，__set() 会被调用。public void __set ( string $name , mixed $value )
+- 读取不可访问属性的值时，__get() 会被调用。public mixed __get ( string $name )
+- 当对不可访问属性调用 isset() 或 empty() 时，__isset() 会被调用。public bool __isset ( string $name )
+- 当对不可访问属性调用 unset() 时，__unset() 会被调用。public void __unset ( string $name )
+- 参数 $name 是指要操作的变量名称。__set() 方法的 $value 参数指定了 $name 变量的值。
+- 属性重载只能在对象中进行。在静态方法中，这些魔术方法将不会被调用。所以这些方法都不能被 声明为 static。
+3. 方法重载
+- 在对象中调用一个不可访问方法时，__call() 会被调用。public mixed __call ( string $name , array $arguments )
+- 在静态上下文中调用一个不可访问方法时，__callStatic() 会被调用。public static mixed __callStatic ( string $name , array $arguments )
+- $name 参数是要调用的方法名称。$arguments 参数是一个枚举数组，包含着要传递给方法 $name 的参数。
+
+## 对象复制
+1. 对象复制可以通过 clone 关键字来完成（如果可能，这将调用对象的 __clone() 方法）。对象中的 __clone() 方法不能被直接调用。
+2. 当对象被复制后，PHP 5 会对对象的所有属性执行一个浅复制（shallow copy）。所有的引用属性 仍然会是一个指向原来的变量的引用。
+3. 当复制完成时，如果定义了 __clone() 方法，则新创建的对象（复制生成的对象）中的 __clone() 方法会被调用，可用于修改属性的值（如果有必要的话）。void __clone ( void )
 ## 函数
 ### 匿名函数
 1. 匿名函数目前是通过 Closure 类来实现的。

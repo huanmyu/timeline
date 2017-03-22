@@ -26,7 +26,17 @@ func diameterBinaryTree(root *TreeNode) int {
 
     i += diameterOneBinaryTree(root.Left)
     i += diameterOneBinaryTree(root.Right)
-    return i
+
+    l := diameterBinaryTree(root.Left)
+    r := diameterBinaryTree(root.right)
+    if l > i && l > r {
+      return l
+    } elseif r > i && r > l {
+      return r
+    } else {
+      return i
+    }
+  }
 }
 
 func diameterOneBinaryTree(root *TreeNode) int {
