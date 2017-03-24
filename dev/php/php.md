@@ -17,6 +17,9 @@
 ### 反射
 1. PHP 5 具有完整的反射 API，添加了对类、接口、函数、方法和扩展进行反向工程的能力。 此外，反射 API 提供了方法来取出函数、类和方法中的文档注释。
 2. ReflectionMethod 类报告了一个方法的有关信息。
+3. ReflectionClass 类报告了一个类的有关信息。
+4. ReflectionClass::newInstanceArgs — 创建一个类的新实例，给出的参数将传递到类的构造函数。
+5. ReflectionParameter 取回了函数或方法参数的相关信息。要自行检查函数的参数，首先创建一个 ReflectionFunction 或 ReflectionMethod 的实例，然后使用它们的 ReflectionFunctionAbstract::getParameters() 方法来获取参数的数组。
 
 ### 类/对象的信息
 1. 这些函数允许你获得类和对象实例的相关信息。 你可以获取对象所属的类名，也可以是它的成员属性和方法。 通过使用这些函数，你不仅可以找到对象和类的关系，也可以是它们的继承关系（例如，对象类继承自哪个类）。
@@ -30,7 +33,7 @@
 9. get_called_class — 后期静态绑定（"Late Static Binding"）类的名称
 10. require 和 include 几乎完全一样，除了处理失败的方式不同之外。require 在出错时产生 E_COMPILE_ERROR 级别的错误。换句话说将导致脚本中止而 include 只产生警告（E_WARNING），脚本会继续运行。
 11. 当一个文件被包含时，其中所包含的代码继承了 include 所在行的变量范围。从该处开始，调用文件在该行处可用的任何变量在被调用的文件中也都可用。不过所有在包含文件中定义的函数和类都具有全局作用域。
-12. self，parent 和 static这三个特殊的关键字是用于在类定义的内部对其属性或方法进行访问的。 
+12. self，parent 和 static这三个特殊的关键字是用于在类定义的内部对其属性或方法进行访问的。
 
 ### 预定义接口
 1. IteratorAggregate（聚合式迭代器）接口
@@ -41,18 +44,20 @@
 4. Closure 类用于代表 匿名函数 的类。
   - 匿名函数（在 PHP 5.3 中被引入）会产生这个类型的对象。
   - 这个类带有一些方法，允许在匿名函数创建后对其进行更多的控制。
-  ```
-  Closure {
-  /* 方法 */
-  __construct ( void ) // 用于禁止实例化的构造函数
-  public static Closure bind ( Closure $closure , object $newthis [, mixed $newscope = 'static' ] ) // 复制一个闭包，绑定指定的$this对象和类作用域。
-  public Closure bindTo ( object $newthis [, mixed $newscope = 'static' ] ) // 复制当前闭包对象，绑定指定的$this对象和类作用域。
-  }
-  ```
+
+        Closure {
+        /* 方法 */
+        __construct ( void ) // 用于禁止实例化的构造函数
+        public static Closure bind ( Closure $closure , object $newthis [, mixed $newscope = 'static' ] ) // 复制一个闭包，绑定指定的$this对象和类作用域。
+        public Closure bindTo ( object $newthis [, mixed $newscope = 'static' ] ) // 复制当前闭包对象，绑定指定的$this对象和类作用域。
+        }
+
 ### 异常
+
 #### 预定义异常
 1. Exception是所有异常的基类。
 2. ErrorException是错误异常。
+
 #### SPL异常
 1. SPL 提供一系列标准异常。
 2. LogicException (extends Exception)
@@ -87,10 +92,13 @@
 1. 对象复制可以通过 clone 关键字来完成（如果可能，这将调用对象的 __clone() 方法）。对象中的 __clone() 方法不能被直接调用。
 2. 当对象被复制后，PHP 5 会对对象的所有属性执行一个浅复制（shallow copy）。所有的引用属性 仍然会是一个指向原来的变量的引用。
 3. 当复制完成时，如果定义了 __clone() 方法，则新创建的对象（复制生成的对象）中的 __clone() 方法会被调用，可用于修改属性的值（如果有必要的话）。void __clone ( void )
+
 ## 函数
+
 ### 匿名函数
 1. 匿名函数目前是通过 Closure 类来实现的。
 2. 闭包可以从父作用域中继承变量。 任何此类变量都应该用 use 语言结构传递进去。 PHP 7.1 起，不能传入此类变量： superglobals、 $this 或者和参数重名。
+
 ### SPL 函数
 1. spl_autoload_register — 注册给定的函数作为 __autoload 的实现。
   - 将函数注册到SPL __autoload函数队列中。如果该队列中的函数尚未激活，则激活它们。

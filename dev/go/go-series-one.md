@@ -239,7 +239,7 @@
   - Stack is a work area where is saves the local variables of function calls that are in progress or temporarily suspended while another function is called.
   - OS thread has a fixed-size block of memory(often as large as 2MB) for its stack.
   - A goroutine starts life with a small stack, typically 2KB. Its not fixed, it grows and shrinks as needed.
-  - OS threads are scheduled by the OS kernel. Every few milliseconds, a hardware timer interrupts the processot, which causes a kernel function called the scheduler to be invoked, which have a full context switch.
+  - OS threads are scheduled by the OS kernel. Every few milliseconds, a hardware timer interrupts the processor, which causes a kernel function called the scheduler to be invoked, which have a full context switch.
   - The Go runtime contains its own scheduler that known as m:n scheduling (it multiplexes m goroutines on n OS threads, is analogous to the kernel scheduler); the Go scheduler is not invoked periodically by a hardware timer, but implicitly by certain Go language constructs.GOMAXPROCS is the n in m:n scheduling. It's default value is the number of CPUs on the machine.
 
 #### Channels
