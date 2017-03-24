@@ -14,7 +14,7 @@ type TreeNode struct {
     Right *TreeNode
 }
 
-func diameterBinaryTree(root *TreeNode) int {
+func diameterOfBinaryTree(root *TreeNode) int {
     i := 0
     if root == nil {
         return i
@@ -27,16 +27,15 @@ func diameterBinaryTree(root *TreeNode) int {
     i += diameterOneBinaryTree(root.Left)
     i += diameterOneBinaryTree(root.Right)
 
-    l := diameterBinaryTree(root.Left)
-    r := diameterBinaryTree(root.right)
+    l := diameterOfBinaryTree(root.Left)
+    r := diameterOfBinaryTree(root.Right)
     if l > i && l > r {
       return l
-    } elseif r > i && r > l {
+    } else if r > i && r > l {
       return r
     } else {
       return i
     }
-  }
 }
 
 func diameterOneBinaryTree(root *TreeNode) int {
