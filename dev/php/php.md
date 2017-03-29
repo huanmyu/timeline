@@ -3,6 +3,11 @@
 ### 变量
 1. 标量变量是指那些包含了 integer、float、string 或 boolean的变量，而 array、object 和 resource 则不是标量。
 2. 资源 resource 是一种特殊变量，保存了到外部资源的一个引用。资源是通过专门的函数来建立和使用的。由于资源类型变量保存有为打开文件、数据库连接、图形画布区域等的特殊句柄，因此将其它类型的值转换为资源没有意义。
+3. 变量的范围即它定义的上下文背景（也就是它的生效范围）。大部分的 PHP 变量只有一个单独的范围。这个单独的范围跨度同样包含了 include 和 require 引入的文件。
+4. PHP 中全局变量在函数中使用时必须声明为 global。 大多数的预定义变量并不 "super"，它们需要用 'global' 关键字来使它们在函数的本地区域中有效。
+5. 在全局范围内访问变量的第二个办法，是用特殊的 PHP 自定义 $GLOBALS 数组。$GLOBALS 是一个关联数组，每一个变量为一个元素，键名对应变量名，值对应变量的内容。$GLOBALS 之所以在全局范围内存在，是因为 $GLOBALS 是一个超全局变量
+6. Superglobals 在任何范围内都有效，它们并不需要 'global' 声明。Superglobals 是在 PHP 4.1.0 引入的。HP 中的许多预定义变量都是“超全局的”，这意味着它们在一个脚本的全部作用域中都可用。在函数或方法中无需执行 global $variable; 就可以访问它们。这些超全局变量是： $GLOBALS, $_SERVER, $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION, $_REQUEST, $_ENV
+7. 变量范围的另一个重要特性是静态变量（static variable）。静态变量仅在局部函数域中存在，但当程序执行离开此作用域时，其值并不丢失。
 
 ### 预定义常量
 1. PHP 常量 PHP_SAPI 具有和 php_sapi_name() 相同的值。php_sapi_name — 返回 web 服务器和 PHP 之间的接口类型，可能返回的值包括了 aolserver、apache、 apache2filter、apache2handler、 caudium、cgi （直到 PHP 5.3）, cgi-fcgi、cli、 cli-server、 continuity、embed、fpm-fcgi、 isapi、litespeed、 milter、nsapi、 phttpd、pi3web、roxen、 thttpd、tux 和 webjames。
@@ -146,3 +151,11 @@
   ?>
   ```
 4. CLI SAPI 提供了一个内置的Web服务器。这个内置的Web服务器主要用于本地开发使用，不可用于线上产品环境。URI请求会被发送到PHP所在的的工作目录（Working Directory）进行处理，除非你使用了-t参数来自定义不同的目录。当你在命令行启动这个Web Server时，如果指定了一个PHP文件，则这个文件会作为一个“路由”脚本，意味着每次请求都会先执行这个脚本。如果这个脚本返回 FALSE ，那么直接返回请求的文件（例如请求静态文件不作任何处理）。否则会把输出返回到浏览器。
+
+### 错误处理
+1. error_reporting — 设置应该报告何种 PHP 错误
+2. error_reporting(0) — 关闭所有PHP错误报告
+3. error_reporting(-1) — 报告所有 PHP 错误
+
+### 数组
+1. current — 返回数组中的当前单元;每个数组中都有一个内部的指针指向它“当前的”单元，初始指向插入到数组中的第一个单元。
