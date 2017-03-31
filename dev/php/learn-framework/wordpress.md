@@ -1,6 +1,9 @@
 # Wordpress
-- [Document](https://cn.wordpress.org/)
-- [Plugin Handbook](https://developer.wordpress.org/plugins/intro/)
+  - [Document](https://cn.wordpress.org/)
+  - [Theme Handbook](https://developer.wordpress.org/themes/)
+  - [Plugin Handbook](https://developer.wordpress.org/plugins/intro/)
+  - [Wordpress Core API](https://make.wordpress.org/core/handbook/best-practices/core-apis/)
+  - [REST API Handbook](https://developer.wordpress.org/rest-api/)
 
 ## 安装
 1. 下载[wordpress压缩包](https://cn.wordpress.org/wordpress-4.7.3-zh_CN.zip)
@@ -54,6 +57,7 @@
 
 ## 额外
 如果进行安装步骤的第二步，生成一个全新的环境。
+
 ### 安装Vagrant以及VirtualBox
 1. 下载并安装[Vagrant](https://www.vagrantup.com/downloads.html)
 2. 下载并安装[VirtualBox](https://www.virtualbox.org/wiki/Linux_Downloads)
@@ -75,3 +79,17 @@
   - vagrant halt    停掉Vagrant机器
   - vagrant up      启动并配置Vagrant环境
   - vagrant reload  重启Vagrant机器，并且加载Vagrantfile文件的新配置
+
+## 学习
+WordPress有三个主要组件:
+  - core
+  - themes
+  - plugins
+
+### 插件
+1. 添加插件头的注释信息
+
+    <?php
+    /*
+    Plugin Name: YOUR PLUGIN NAME
+    */
