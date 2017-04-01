@@ -14,7 +14,7 @@
 
 ## 订阅者订阅和取消订阅消息通道
 1. 订阅者可以根据消息通道的名称订阅消息通道，发布者发布到这些消息通道的消息会被Redis推送给订阅消息通道的订阅者。
-  -　SUBSCRIBE foo bar
+  - SUBSCRIBE foo bar
 2. 订阅者可以根据消息通道的名称取消订阅消息通道，如果不加任何参数，表示取消订阅已经订阅的所有消息通道。
   - UNSUBSCRIBE foo
   - UNSUBSCRIBE
@@ -40,5 +40,5 @@
   - pmessage：　表示接受到来自模式匹配消息通道发送的消息，这种情况下第二个元素是原始的模式匹配字符串，第三个元素是发布消息到的消息通道的名称，最后一个元素是实际的消息的内容。
 
 ## 额外
-所有的详细信息可以查看[document](https://redis.io/topics/pubsub)
-[Redis及其产品定位](http://www.infoq.com/cn/articles/tq-why-choose-redis）
+- 所有的详细信息可以查看[document](https://redis.io/topics/pubsub)
+- [Redis及其产品定位](http://www.infoq.com/cn/articles/tq-why-choose-redis)
