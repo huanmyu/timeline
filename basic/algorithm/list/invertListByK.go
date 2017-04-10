@@ -16,3 +16,27 @@
 // 4→3→2→1→5→6
 //
 // 请用程序实现该算法。
+
+type ListNode struct {
+  Val int
+  Next  *ListNode
+}
+
+var Head ListNode
+
+func createList()  {
+  NextNode := ListNode {
+    Val: 2,
+  }
+
+  Head = ListNode {
+    val : 1,
+    Next : &NextNode
+  }
+
+  NNextNode := ListNode {
+    Val: 3,
+  }
+
+  NextNode.Next = &NNextNode
+}
