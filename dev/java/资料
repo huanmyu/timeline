@@ -1,0 +1,40 @@
+# Remote procedure call(RPC)
+1. In distributed computing a remote procedure call (RPC) is when a computer program causes a procedure (subroutine) to execute in another address space (commonly on another computer on a shared network), which is coded as if it were a normal (local) procedure call, without the programmer explicitly coding the details for the remote interaction. That is, the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote.This is a form of client–server interaction (caller is client, executer is server), typically implemented via a request–response message-passing system. The object-oriented programming analog is remote method invocation (RMI). The RPC model implies a level of location transparency, namely that calling procedures is largely the same whether it is local or remote, but usually they are not identical, so local calls can be distinguished from remote calls. Remote calls are usually orders of magnitude slower and less reliable than local calls, so distinguishing them is important.
+
+RPCs are a form of inter-process communication (IPC), in that different processes have different address spaces: if on the same host machine, they have distinct virtual address spaces, even though the physical address space is the same; while if they are on different hosts, the physical address space is different. Many different (often incompatible) technologies have been used to implement the concept.
+
+RPC is a kind of request–response protocol. An RPC is initiated by the client, which sends a request message to a known remote server to execute a specified procedure with supplied parameters. The remote server sends a response to the client, and the application continues its process. While the server is processing the call, the client is blocked (it waits until the server has finished processing before resuming execution), unless the client sends an asynchronous request to the server, such as an XHTTP call. There are many variations and subtleties in various implementations, resulting in a variety of different (incompatible) RPC protocols.
+
+An important difference between remote procedure calls and local calls is that remote calls can fail because of unpredictable network problems. Also, callers generally must deal with such failures without knowing whether the remote procedure was actually invoked.
+
+ Idempotent procedures (those that have no additional effects if called more than once) are easily handled, but enough difficulties remain that code to call remote procedures is often confined to carefully written low-level subsystems.
+
+
+ Sequence of events
+ The client calls the client stub. The call is a local procedure call, with parameters pushed on to the stack in the normal way.
+ The client stub packs the parameters into a message and makes a system call to send the message. Packing the parameters is called marshalling.
+ The client's local operating system sends the message from the client machine to the server machine.
+ The local operating system on the server machine passes the incoming packets to the server stub.
+ The server stub unpacks the parameters from the message. Unpacking the parameters is called unmarshalling.
+ Finally, the server stub calls the server procedure. The reply traces the same steps in the reverse direction.
+
+To let different clients access servers, a number of standardized RPC systems have been created. Most of these use an interface description language (IDL) to let various platforms call the RPC. The IDL files can then be used to generate code to interface between the client and servers.
+
+ In the 1990s, with the popularity of object-oriented programming, the alternative model of remote method invocation (RMI) was widely implemented, such as in Common Object Request Broker Architecture (CORBA, 1991) and Java remote method invocation. RMIs in turn fell in popularity with the rise of the internet, particularly in the 2000s.
+
+## Stub
+A stub in distributed computing is a piece of code that converts parameters passed between client and server during a remote procedure call (RPC).
+
+The main idea of an RPC is to allow a local computer (client) to remotely call procedures on a different computer (server). The client and server use different address spaces, so parameters used in a function (procedure) call have to be converted, otherwise the values of those parameters could not be used, because pointers to parameters in one computer's memory would point to different data on the other computer.
+
+ The client and server may also use different data representations, even for simple parameters.
+ Stubs perform the conversion of the parameters, so a remote procedure call looks like a local function call for the remote computer.
+
+Stub libraries must be installed on both the client and server side. A client stub is responsible for conversion (marshalling) of parameters used in a function call and deconversion of results passed from the server after execution of the function. A server skeleton, the stub on the server side, is responsible for deconversion of parameters passed by the client and conversion of the results after the execution of the function.
+
+ the more commonly used method for stub generation. It uses an interface description language (IDL) to define the interface between client and server. For example, an interface definition has information to indicate whether each argument is input, output or both; only input arguments need to be copied from client to server and only output elements need to be copied from server to client.
+
+## RMI
+Distributed object communication(Remote method invocation)
+
+### Java Remote Method Invocation (Java RMI)
