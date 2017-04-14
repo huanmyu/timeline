@@ -1,5 +1,7 @@
-# Remote procedure call(RPC)
-1. In distributed computing a remote procedure call (RPC) is when a computer program causes a procedure (subroutine) to execute in another address space (commonly on another computer on a shared network), which is coded as if it were a normal (local) procedure call, without the programmer explicitly coding the details for the remote interaction. That is, the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote.This is a form of client–server interaction (caller is client, executer is server), typically implemented via a request–response message-passing system. The object-oriented programming analog is remote method invocation (RMI). The RPC model implies a level of location transparency, namely that calling procedures is largely the same whether it is local or remote, but usually they are not identical, so local calls can be distinguished from remote calls. Remote calls are usually orders of magnitude slower and less reliable than local calls, so distinguishing them is important.
+# RPC (Remote procedure call)
+1. In distributed computing a RPC is when a computer program causes a procedure (subroutine) to execute in another address space (commonly on another computer on a shared network), which is coded as if it were a normal (local) procedure call, without the programmer explicitly coding the details for the remote interaction. That is, the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote.
+
+This is a form of client–server interaction (caller is client, executer is server), typically implemented via a request–response message-passing system. The object-oriented programming analog is remote method invocation (RMI). The RPC model implies a level of location transparency, namely that calling procedures is largely the same whether it is local or remote, but usually they are not identical, so local calls can be distinguished from remote calls. Remote calls are usually orders of magnitude slower and less reliable than local calls, so distinguishing them is important.
 
 RPCs are a form of inter-process communication (IPC), in that different processes have different address spaces: if on the same host machine, they have distinct virtual address spaces, even though the physical address space is the same; while if they are on different hosts, the physical address space is different. Many different (often incompatible) technologies have been used to implement the concept.
 
@@ -25,16 +27,98 @@ To let different clients access servers, a number of standardized RPC systems ha
 ## Stub
 A stub in distributed computing is a piece of code that converts parameters passed between client and server during a remote procedure call (RPC).
 
-The main idea of an RPC is to allow a local computer (client) to remotely call procedures on a different computer (server). The client and server use different address spaces, so parameters used in a function (procedure) call have to be converted, otherwise the values of those parameters could not be used, because pointers to parameters in one computer's memory would point to different data on the other computer.
-
- The client and server may also use different data representations, even for simple parameters.
+The main idea of an RPC is to allow a local computer (client) to remotely call procedures on a different computer (server). The client and server use different address spaces, so parameters used in a function (procedure) call have to be converted, otherwise the values of those parameters could not be used, because pointers to parameters in one computer's memory would point to different data on the other computer. The client and server may also use different data representations, even for simple parameters.
  Stubs perform the conversion of the parameters, so a remote procedure call looks like a local function call for the remote computer.
 
 Stub libraries must be installed on both the client and server side. A client stub is responsible for conversion (marshalling) of parameters used in a function call and deconversion of results passed from the server after execution of the function. A server skeleton, the stub on the server side, is responsible for deconversion of parameters passed by the client and conversion of the results after the execution of the function.
 
  the more commonly used method for stub generation. It uses an interface description language (IDL) to define the interface between client and server. For example, an interface definition has information to indicate whether each argument is input, output or both; only input arguments need to be copied from client to server and only output elements need to be copied from server to client.
 
+ The client side object participating in distributed object communication is known as a stub or proxy, and is an example of a proxy object.
+
+The stub acts as a gateway for client side objects and all outgoing requests to server side objects that are routed through it. The stub wraps client object functionality and by adding the network logic ensures the reliable communication channel between client and server. The stub can be written up manually or generated automatically depending on chosen communication protocol.
+
+The stub is responsible for:
+
+initiating the communication towards the server skeleton
+translating calls from the caller object
+marshalling of the parameters
+informing the skeleton that the call should be invoked
+passing arguments to the skeleton over the network
+unmarshalling of the response from the skeleton
+informing the skeleton that the call is complete
+
+## Skeleton
+A skeleton acts as gateway for server side objects and all incoming clients requests are routed through it. The skeleton wraps server object functionality and exposes it to the clients, moreover by adding the network logic ensures the reliable communication channel between clients and server. Skeletons can be written up manually or generated automatically depending on chosen communication protocol.
+
+The skeleton is responsible for:
+
+translating incoming data from the stub to the correct up-calls to server objects
+unmarshalling of the arguments from received data
+passing arguments to server objects
+marshalling of the returned values from server objects
+passing values back to the client stub over the network
+
 ## RMI
 Distributed object communication(Remote method invocation)
+In a distributed computing environment, distributed object communication realizes communication between distributed objects. The main role is to allow objects to access data and invoke methods on remote objects (objects residing in non-local memory space). Invoking a method on a remote object is known as remote method invocation or remote invocation, and is the object-oriented programming analog of a remote procedure call.
+
+#### Class stubs and skeletons
+The widely used approach on how to implement the communication channel is realized by using stubs and skeletons. They are generated objects whose structure and behavior depends on chosen communication protocol, but in general provide additional functionality that ensures reliable communication over the network.
+
+In RMI, a stub (which is the bit on the client) is defined by the programmer as an interface. The rmic compiler uses this to create the class stub. The stub performs type checking. The skeleton is defined in a class which implements the interface stub.
+
+When a caller wants to perform remote call on the called object, it delegates requests to its stub which initiates communication with the remote skeleton. Consequently, the stub passes caller arguments over the network to the server skeleton. The skeleton then passes received data to the called object, waits for a response and returns the result to the client stub. Note, there is no direct communication between the caller and the called object.
+
+In more details, the communication consists of several steps:
+
+caller calls a local procedure implemented by the stub
+stub marshalls call type and in the input arguments into a request message
+client stub sends the message over the network to the server and blocks the current execution thread
+server skeleton receives the request message from the network
+skeleton unpacks call type from the request message and looks up the procedure on the called object
+skeleton unmarshalls procedure arguments
+skeleton executes the procedure on the called object
+called object performs a computation and returns the result
+skeleton packs the output arguments into a response message
+skeleton sends the message over the network back to the client
+client stub receives the response message from the network
+stub unpacks output arguments from the message
+stub passes output arguments to the caller, releases execution thread and caller then continues in execution
+The advantage of this architecture is that neither the caller nor the called object has to implement network related logic. This functionality, that ensures reliable communication channel over the network, has been moved to the stub and the skeleton layer.
+
 
 ### Java Remote Method Invocation (Java RMI)
+The Java Remote Method Invocation (RMI) system allows an object running in one Java virtual machine to invoke methods on an object running in another Java virtual machine. RMI provides for remote communication between programs written in the Java programming language.
+
+In computing, the Java Remote Method Invocation (Java RMI) is a Java API that performs remote method invocation, the object-oriented equivalent of remote procedure calls (RPC), with support for direct transfer of serialized Java classes and distributed garbage-collection.
+
+The original implementation depends on Java Virtual Machine (JVM) class-representation mechanisms and it thus only supports making calls from one JVM to another. The protocol underlying this Java-only implementation is known as Java Remote Method Protocol (JRMP). In order to support code running in a non-JVM context, programmers later developed a CORBA version.
+
+### Jini
+Jini offers a more advanced version of RMI in Java. It functions similarly but provides more advanced searching capabilities and mechanisms for distributed object applications.
+
+
+#### Java RMI Package
+RMI is Remote Method Invocation. It is a mechanism that enables an object on one Java virtual machine to invoke methods on an object in another Java virtual machine. Any object that can be invoked this way must implement the Remote interface. When such an object is invoked, its arguments are ``marshalled'' and sent from the local virtual machine to the remote one, where the arguments are ``unmarshalled.'' When the method terminates, the results are marshalled from the remote machine and sent to the caller's virtual machine. If the method invocation results in an exception being thrown, the exception is indicated to caller.
+
+The Remote interface serves to identify interfaces whose methods may be invoked from a non-local virtual machine. Any object that is a remote object must directly or indirectly implement this interface. Only those methods specified in a "remote interface", an interface that extends java.rmi.Remote are available remotely.
+Implementation classes can implement any number of remote interfaces and can extend other remote implementation classes. RMI provides some convenience classes that remote object implementations can extend which facilitate remote object creation. These classes are java.rmi.server.UnicastRemoteObject and java.rmi.activation.Activatable.
+
+##### Background
+Distributed systems require that computations running in different address spaces, potentially on different hosts, be able to communicate. For a basic communication mechanism, the JavaTM programming language supports sockets, which are flexible and sufficient for general communication. However, sockets require the client and server to engage in applications-level protocols to encode and decode messages for exchange, and the design of such protocols is cumbersome and can be error-prone.
+An alternative to sockets is Remote Procedure Call (RPC), which abstracts the communication interface to the level of a procedure call. Instead of working directly with sockets, the programmer has the illusion of calling a local procedure, when in fact the arguments of the call are packaged up and shipped off to the remote target of the call. RPC systems encode arguments and return values using an external data representation, such as XDR.
+RPC, however, does not translate well into distributed object systems, where communication between program-level objects residing in different address spaces is needed. In order to match the semantics of object invocation, distributed object systems require remote method invocation or RMI. In such systems, a local surrogate (stub) object manages the invocation on a remote object.
+The Java platform's remote method invocation system described in this specification has been specifically designed to operate in the Java application environment. The Java programming language's RMI system assumes the homogeneous environment of the Java virtual machine (JVM), and the system can therefore take advantage of the Java platform's object model whenever possible.
+
+RMI applications are often comprised of two separate programs: a server and a client. A typical server application creates a number of remote objects, makes references to those remote objects accessible, and waits for clients to invoke methods on those remote objects. A typical client application gets a remote reference to one or more remote objects in the server and then invokes methods on them. RMI provides the mechanism by which the server and the client communicate and pass information back and forth. Such an application is sometimes referred to as a distributed object application.
+
+
+##　additional
+
+https://docs.oracle.com/javase/8/docs/platform/rmi/spec/rmiTOC.html
+https://en.wikipedia.org/wiki/Java_remote_method_invocation
+https://en.wikipedia.org/wiki/Remote_procedure_call
+https://en.wikipedia.org/wiki/Stub_(distributed_computing)
+https://en.wikipedia.org/wiki/Location_transparency
+https://en.wikipedia.org/wiki/Distributed_object_communication
