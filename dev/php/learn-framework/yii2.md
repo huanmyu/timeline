@@ -13,7 +13,19 @@
 
 ### work1
 1. yii framework初始化
-2. 使用到的PHP函数
+2. 继承关系
+  ==> 实现
+  --> 继承
+  Object类 ==> Configurable接口
+  Behavior类 --> Object类
+  Event类 --> Object类
+  Component类 --> Object类
+  Container类 --> Component类
+  ServiceLocator类 --> Component类
+  Module类 --> ServiceLocator类
+  Application类 --> Module类
+
+3. 使用到的PHP函数
     - is_scalar — 检测变量是否是一个标量
     - is_resource — 检测变量是否为资源类型
     - ctype_digit — 做纯数字检测

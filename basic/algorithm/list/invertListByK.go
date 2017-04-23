@@ -23,20 +23,3 @@ type ListNode struct {
 }
 
 var Head ListNode
-
-func createList()  {
-  NextNode := ListNode {
-    Val: 2,
-  }
-
-  Head = ListNode {
-    val : 1,
-    Next : &NextNode
-  }
-
-  NNextNode := ListNode {
-    Val: 3,
-  }
-
-  NextNode.Next = &NNextNode
-}
