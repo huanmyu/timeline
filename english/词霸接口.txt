@@ -1,0 +1,52 @@
+http://open.iciba.com/index.php?c=wiki&t=cc
+http://dict-co.iciba.com/api/dictionary.php?w=go&key=********
+传入参数：
+w	:	单词/汉字
+type : 返回格式 为空是xml 传入 xml 或者 json
+key : 您申请到的key
+JSON 字段解释(英文)
+{
+'word_name':'' #单词
+'exchange': '' #单词的各种时态
+'symbols':'' #单词各种信息 下面字段都是这个字段下面的
+'ph_en': '' #英式音标
+'ph_am': '' #美式音标
+'ph_en_mp3':'' #英式发音
+'ph_am_mp3': '' #美式发音
+'ph_tts_mp3': '' #TTS发音
+'parts':'' #词的各种意思
+}
+JSON 字段解释(中文)
+{
+'word_name':'' #所查的词
+'symbols':'' #词各种信息 下面字段都是这个字段下面的
+'word_symbol': '' #拼音
+'symbol_mp3': '' #发音
+'parts':'' #汉字的各种翻译 数组
+'net_means': '' #网络释义
+}
+
+http://open.iciba.com/dsapi/?date=2013-05-03
+传入参数：
+file	//数据格式，默认（json），可选xml
+date	//标准化日期格式 如：2013-05-06， 如：http://open.iciba.com/dsapi/?date=2013-05-03
+如果 date为空 则默认取当日的，当日为空 取前一日的
+type(可选)	// last 和 next 你懂的，以date日期为准的，last返回前一天的，next返回后一天的
+
+JSON 字段解释
+{
+'sid':'' #每日一句ID
+'tts': '' #音频地址
+'content':'' #英文内容
+'note': '' #中文内容
+'love': '' #每日一句喜欢个数
+'translation':'' #词霸小编
+'picture': '' #图片地址
+'picture2': '' #大图片地址
+'caption':'' #标题
+'dateline':'' #时间
+'s_pv':'' #浏览数
+'sp_pv':'' #语音评测浏览数
+'tags':'' #相关标签
+'fenxiang_img':'' #合成图片，建议分享微博用的
+}

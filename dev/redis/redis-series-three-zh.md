@@ -37,7 +37,7 @@
 1. Redis Pipelining是一种客户端可以发送多条命令给服务器，并且不需要等待服务器的回复，最后在一个步骤中读取回复。
 2. 实现的方式是当客户端使用Pipelining发送多条命令给服务器，服务器会强制把把当前命令的回复使用内存保存在队列里面。
 
-Redis Pipelining和Redis Lua脚本可以结合使用，Lua脚本在一些场景下更有效。有是可以使用pipelining发送多条EVAL或者EVALSHA命令。
+Redis Pipelining和Redis Lua脚本可以结合使用，Lua脚本在一些场景下更有效。有时可以使用pipelining发送多条EVAL或者EVALSHA命令。
 
 ## 额外
 - [参考文档－Lua脚本](https://redis.io/topics/pipelining)
