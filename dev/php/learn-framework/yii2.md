@@ -16,14 +16,47 @@
 2. 继承关系
   ==> 实现
   --> 继承
-  Object类 ==> Configurable接口
-  Behavior类 --> Object类
-  Event类 --> Object类
-  Component类 --> Object类
-  Container类 --> Component类
-  ServiceLocator类 --> Component类
-  Module类 --> ServiceLocator类
-  Application类 --> Module类
+  Base类
+    Object类 ==> Configurable接口
+    Behavior类 --> Object类
+    Event类 --> Object类
+    Component类 --> Object类
+    Container类 --> Component类
+    ServiceLocator类 --> Component类
+    Module类 --> ServiceLocator类
+    Application类 --> Module类
+    Request类 --> Component类
+    Response类 --> Component类
+    Controller类 --> Component类 ==> ViewContextInterface接口
+    Action类 --> Component类
+    ActionEvent类 --> Event类
+    ActionFilter类 --> Behavior类
+    Model类 --> Component类 ==> IteratorAggregate接口, ArrayAccess接口, Arrayable接口
+    DynamicModel类 --> Model类
+    ModelEvent类 --> Event类
+    View类 --> Component类
+    ViewEvent类 --> Event类
+    ViewRenderer类 --> Component类
+    Widget类 --> Component类 ==> ViewContextInterface接口
+    WidgetEvent类 --> Event类
+  Web类
+    Application类 --> \yii\base\Application类
+    Request类 --> \yii\base\Request类
+    Response类 --> \yii\base\Response类
+    UrlManager类 --> Component类
+    AssetManager类 --> Component类
+    Controller类 --> \yii\base\Controller类
+    View类 --> \yii\base\View类
+　Rest类
+    Controller类 --> \yii\web\Controller类
+    ActiveController类 --> Controller类
+    Action类 --> \yii\base\Action类
+    OptionsAction类 --> \yii\base\Action类
+    IndexAction类 --> Action类
+    CreateAction类 --> Action类
+    UpdateAction类 --> Action类
+    DeleteAction类 --> Action类
+
 
 3. 使用到的PHP函数
     - is_scalar — 检测变量是否是一个标量
