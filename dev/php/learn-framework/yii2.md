@@ -56,7 +56,11 @@
     CreateAction类 --> Action类
     UpdateAction类 --> Action类
     DeleteAction类 --> Action类
-
+  Console类
+    Application类 --> \yii\base\Application类
+    Request类 --> \yii\base\Request类
+    Response类 --> \yii\base\Response类
+    Controller类 --> \yii\base\Controller类
 
 3. 使用到的PHP函数
     - is_scalar — 检测变量是否是一个标量
