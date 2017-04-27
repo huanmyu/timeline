@@ -30,7 +30,38 @@ There is another notable scenario where Redis Cluster will lose writes, that hap
 
 After node timeout has elapsed, a master node is considered to be failing, and can be replaced by one of its replicas.
 
+Redis Cluster configuration parameters
+cluster-enabled <yes/no>: If yes enables Redis Cluster support in a specific Redis instance. Otherwise the instance starts as a stand alone instance as usually.
+cluster-config-file <filename>: The file where a Redis Cluster node automatically persists the cluster configuration (the state, basically)
+cluster-node-timeout <milliseconds>: The maximum amount of time a Redis Cluster node can be unavailable, without it being considered as failing.
+cluster-slave-validity-factor <factor>: zero, positive
+cluster-migration-barrier <count>: inimum number of slaves a master will remain connected with, for another slave to migrate to a master which is no longer covered by any slave.
+cluster-require-full-coverage <yes/no>: If this is set to yes, as it is by default, the cluster stops accepting writes if some percentage of the key space is not covered by any node. If the option is set to no, the cluster will still serve queries even if only requests about a subset of keys can be processed.
+
+Creating and using a Redis Cluster
+
+
+
+
 Redis Cluster and Docker
 Redis Cluster does not support NATted environments and in general environments where IP addresses or TCP ports are remapped.
 In order to make Docker compatible with Redis Cluster you need to use the host networking mode of Docker.
 docker pull redis
+
+docker build -t my7000redis .
+docker run --net=host -p 7000:7000 --name myport7000redis my7000redis
+
+docker build -t my7001redis .
+docker run --net=host -p 7001:7001 --name myport7001redis my7001redis
+
+docker build -t my7002redis .
+docker run --net=host -p 7002:7002 --name myport7002redis my7002redis
+
+docker build -t my7003redis .
+docker run --net=host -p 7003:7003 --name myport7003redis my7003redis
+
+docker build -t my7004redis .
+docker run --net=host -p 7004:7004 --name myport7004redis my7004redis
+
+docker build -t my7005redis .
+docker run --net=host -p 7005:7005 --name myport7005redis my7005redis
