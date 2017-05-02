@@ -108,6 +108,16 @@ then
     exit 0
 fi
 
+# start one redis instance for cluster
+if [ "$1" == "startOne" ]
+then
+    port=$2
+    echo "Starting ${port}"
+    docker stop myport${port}redis
+    docker run --rm --net=host -p ${port}:${port} --name myport${port}redis -d my${port}redis
+    exit 0
+fi
+
 # Create cluster use start redis instance
 if [ "$1" == "create" ]
 then
@@ -257,5 +267,32 @@ then
 
         echo "${READS} R | ${WRITES} W (${FAILEDWRITES} err) | ${LOSTWRITES} lost | ${NOTACKWRITES} noack"
     done
+    exit 0
+fi
+
+# Add a new node
+if [ "$1" == "add" ]
+then
+    new_node=$2
+    exist_node="127.0.0.1:$((PORT+1))"
+    ./redis-trib.rb add-node ${new_node} ${exist_node}
+    exit 0
+fi
+
+# Add a slave node
+if [ "$1" == "slave" ]
+then
+    new_node=$2
+    exist_node="127.0.0.1:$((PORT+1))"
+    ./redis-trib.rb add-node --slave ${new_node} ${exist_node}
+    exit 0
+fi
+
+# Delete a slave node
+if [ "$1" == "delete" ]
+then
+    del_node=$2
+    exist_node="127.0.0.1:$((PORT+1))"
+    ./redis-trib.rb del-node ${exist_node} ${del_node}
     exit 0
 fi

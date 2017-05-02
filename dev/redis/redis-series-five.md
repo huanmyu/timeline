@@ -33,10 +33,7 @@ After node timeout has elapsed, a master node is considered to be failing, and c
 Redis Cluster configuration parameters
 cluster-enabled <yes/no>: If yes enables Redis Cluster support in a specific Redis instance. Otherwise the instance starts as a stand alone instance as usually.
 cluster-config-file <filename>: The file where a Redis Cluster node automatically persists the cluster configuration (the state, basically)
-cluster-node-timeout <milliseconds>: The maximum amount of time a Redis Cluster node can be unavailable, without it being considered as failing.
-cluster-slave-validity-factor <factor>: zero, positive
-cluster-migration-barrier <count>: inimum number of slaves a master will remain connected with, for another slave to migrate to a master which is no longer covered by any slave.
-cluster-require-full-coverage <yes/no>: If this is set to yes, as it is by default, the cluster stops accepting writes if some percentage of the key space is not covered by any node. If the option is set to no, the cluster will still serve queries even if only requests about a subset of keys can be processed.
+cluster-node-timeout <milliseconds>peculiarities of the key space is not covered by any node. If the option is set to no, the cluster will still serve queries even if only requests about a subset of keys can be processed.
 
 Creating and using a Redis Cluster
 
@@ -65,3 +62,6 @@ docker run --net=host -p 7004:7004 --name myport7004redis my7004redis
 
 docker build -t my7005redis .
 docker run --net=host -p 7005:7005 --name myport7005redis my7005redis
+
+docker build -t my7006redis .
+docker run --net=host -p 7006:7006 --name myport7006redis my7006redis
