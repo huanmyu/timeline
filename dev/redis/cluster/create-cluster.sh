@@ -4,9 +4,58 @@
 PORT=6999
 NODES=6
 REPLICAS=1
+WORKINGSET=1000
+KEYSPACE=10000
+LOSTWRITES=0
+NOTACKWRITES=0
+READS=0
+WRITES=0
+FAILEDWRITES=0
+
+CacheKey=()
+CacheValue=()
 
 # Computed vars
 ENDPORT=$((PORT+NODES))
+
+# Gen radom key
+gen_key() {
+    s=$(date +%S)
+    rand=$(awk 'BEGIN{srand(); print rand()}')
+    if [ "${rand}" > 0.5 ]
+    then
+        key="${s}key_$(awk -v min=1 -v max=${KEYSPACE} 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')"
+    else
+        key="${s}key_$(awk -v min=1 -v max=${WORKINGSET} 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')"
+    fi
+    echo ${key}
+}
+
+check_consistency() {
+    key=$1
+    value=$2
+    position=0
+    index=0
+    for i in "${CacheKey[@]}"
+    do
+        index=$((index+1))
+        if [ "${i}" = "${key}" ]
+        then
+            position=${index}
+        fi
+    done
+
+    expected=${CacheValue[${position}]}
+    if [ "${expected}" != "" ]
+    then
+        if [ "${expected}" > "${value}" ]
+        then
+            LOSTWRITES=$((LOSTWRITES+expected-value))
+        else
+            NOTACKWRITES=$((NOTACKWRITES+value-expected))
+        fi
+    fi
+ }
 
 # Get real port
 get_real_port() {
@@ -35,6 +84,15 @@ set_value_for_key() {
     value=$2
     port=$(get_real_port $key)
     result=$(redis-cli -p $port SET $key $value)
+    echo ${result}
+}
+
+# Inc value in real port
+inc_value_for_key() {
+    key=$1
+    value=$2
+    port=$(get_real_port $key)
+    result=$(redis-cli -p $port INCR $key)
     echo ${result}
 }
 
@@ -167,5 +225,37 @@ then
     perform_host=$5
     perform_port=$6
     ./redis-trib.rb reshard --from ${source_nodeid} --to ${target_nodeid} --slots ${num} --yes ${perform_host}:${perform_port}
+    exit 0
+fi
+
+# Consistency test example
+if [ "$1" == "test" ]
+then
+    while :
+    do
+        key=$(gen_key)
+        CacheKey+=(${key})
+        value=$(get_value_by_key ${key})
+
+        if [ "$value" == "" ]
+        then
+            value=0
+        fi
+
+        check_consistency ${key} ${value}
+        READS=$((READS+1))
+
+        inc_value=$(inc_value_for_key ${key})
+
+        if [ "$inc_value" == "" ]
+        then
+            FAILEDWRITES=$((FAILEDWRITES+1))
+        else
+            CacheValue+=(${inc_value})
+            WRITES=$((WRITES+1))
+        fi
+
+        echo "${READS} R | ${WRITES} W (${FAILEDWRITES} err) | ${LOSTWRITES} lost | ${NOTACKWRITES} noack"
+    done
     exit 0
 fi
