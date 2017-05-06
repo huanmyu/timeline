@@ -61,6 +61,13 @@
     Request类 --> \yii\base\Request类
     Response类 --> \yii\base\Response类
     Controller类 --> \yii\base\Controller类
+  Mutex类
+    Mutex类 --> Component类
+    FileMutex类 --> Mutex类
+    DbMutex类 --> Mutex类
+    MysqlMutex类 --> DbMutex类
+    OracleMutex类 --> DbMutex类
+    PgsqlMutex类 --> DbMutex类
 
 3. 使用到的PHP函数
     - is_scalar — 检测变量是否是一个标量
