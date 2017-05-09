@@ -1,5 +1,5 @@
 http://open.iciba.com/index.php?c=wiki&t=cc
-http://dict-co.iciba.com/api/dictionary.php?w=go&key=********
+http://dict-co.iciba.com/api/dictionary.php?w=go&key=********&type=json
 传入参数：
 w	:	单词/汉字
 type : 返回格式 为空是xml 传入 xml 或者 json
