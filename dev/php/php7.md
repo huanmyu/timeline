@@ -13,3 +13,4 @@ sudo service apache2 restart
 
 #安装Mysql
 sudo apt install php7.0-mysql
+
